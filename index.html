@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 إدارة أفكار المواقع 2</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 25px;
+      /* استخدام الخلفية بالطريقة التقليدية الأكثر استقراراً */
+      background: 
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.7)),
+        url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: auto;
+    }
+
+    .card {
+      /* تعديل: استبدال الضبابية بلون مشبع يعطي نفس المظهر لتقليل جهد المعالجة */
+      background: rgba(245, 245, 245, 0.98); 
+      border-radius: 28px;
+      padding: 35px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
+      /* تحسين الأداء */
+      contain: content;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: #111827;
+      cursor: default;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 25px;
+      color: #111827;
+      cursor: default;
+    }
+
+    p {
+      text-align: center;
+      color: #4b5563;
+      margin-bottom: 35px;
+      font-size: 18px;
+      cursor: default;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: #1f2937;
+      font-size: 16px;
+    }
+
+    input {
+      padding: 16px;
+      border-radius: 18px;
+      border: 2px solid #e5e7eb;
+      font-size: 15px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      background: #ffffff;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #111827;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .save-btn {
+      width: 100%;
+      margin-top: 30px;
+      background: linear-gradient(135deg, #111827, #374151);
+      color: white;
+      padding: 18px;
+      border-radius: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    .save-btn:hover {
+      transform: scale(1.01);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 20px;
+      /* تحسين تمرير الجدول */
+      -webkit-overflow-scrolling: touch; 
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      /* background: white; */
+      border-radius: 20px;
+      table-layout: auto;
+    }
+
+    thead {
+      /* background: #111827; */
+      color: white;
+    }
+    th{
+      width: 20px;
+      padding: 14px;
+    }
+    th, td {
+      
+      text-align: center;
+      font-size: 17px;
+      
+    }
+    td{
+      padding: 7px;
+    }
+    tbody tr {
+      border-bottom: 1px solid #eee;
+      /* transition: background-color 0.2s, transform 0.2s; */
+    }
+
+    tbody tr:hover {
+      /* background: #f0f4ff; */
+    }
+
+    #ideasTable th {
+    /* background-color: #111827; */
+    color: white;
+    padding: 10px;
+    font-size: 17px;
+    }
+
+    #ideasTable td {
+    padding: 10px;
+    /* background-color: #fff; */
+    }
+
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .delete-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 1px;
+      border-radius: 8px;
+      background: #111827;
+      color: white;
+      font-size: 14px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>🚀 إدارة أفكار المواقع</h1>
+      <p>💡 سجّل المشاكل اليومية وحوّلها إلى أفكار مشاريع ومواقع ناجحة</p>
+
+      <div class="form-grid">
+        <div class="input-group"><label>❓ المشكلة؟</label><input type="text" id="problem" placeholder="ما المشكلة بالضبط؟" /></div>
+        <div class="input-group"><label>🎯 من يعاني منها؟</label><input type="text" id="audience" placeholder="طلاب؟ تجار؟ لاعبون؟ أساتذة؟ أصحاب سيارات؟" /></div>
+        <div class="input-group"><label>🛠️ كيف تُحل حاليًا؟</label><input type="text" id="currentSolution" placeholder="تطبيق قديمة؟ فيسبوك؟ يدويًا؟ لا يوجد حل؟" /></div>
+        <div class="input-group"><label>⚠️ لماذا الحل الحالي سيئ؟</label><input type="text" id="badCurrentSolution" placeholder="بطيء؟ غير منظم؟ مكلف؟ معقد؟ غير فعال؟" /></div>
+        <div class="input-group"><label>🌐 فكرة الموقع</label><input type="text" id="websiteIdea" placeholder="ماذا سيفعل الموقع؟ كيف سيغير الوضع؟ لماذا هو أفضل؟" /></div>
+        <div class="input-group"><label>🧪 أبسط نسخة MVP</label><input type="text" id="mvp" placeholder="ما أقل شيء يمكن بناؤه لتجربة الفكرة؟" /></div>
+        <div class="input-group"><label>💰 هل سيدفع الناس؟ وكيف؟</label><input type="text" id="monetization" placeholder="إعلانات؟ اشتراك؟ عمولة؟ كاش؟ مجاني مع ميزات مدفوعة؟" /></div>
+        <div class="input-group"><label>📊 صعوبة التنفيذ</label><input type="text" id="difficulty" placeholder="من 1 إلى 10؟ ما الصعب؟" /></div>
+        <div class="input-group"><label>📅 حجم المشكلة</label><input type="text" id="frequency" placeholder="يوميًا ام اسبوعيًا أم نادرًا؟" /></div>
+      </div>
+
+      <button class="save-btn" onclick="addIdea()">➕ حفظ الفكرة</button>
+    </div>
+
+    <div class="card">
+      <h2>📚 الأفكار المحفوظة</h2>
+      <div class="table-wrapper">
+        <table>
+  <thead>
+    
+  </thead>
+  <tbody id="ideasTable">
+    <!-- هنا يتم إضافة البيانات بواسطة JS -->
+  </tbody>
+</table>
+      </div>
+      <div id="emptyMessage" class="empty">📭 لا توجد أفكار محفوظة بعد</div>
+    </div>
+  </div>
+
+  <script>
+    let ideas = JSON.parse(localStorage.getItem("ideas-storage")) || [];
+
+    function saveIdeas() {
+      localStorage.setItem("ideas-storage", JSON.stringify(ideas));
+    }
+
+    function addIdea() {
+      const idea = {
+        id: Date.now(),
+        problem: document.getElementById("problem").value,
+        audience: document.getElementById("audience").value,
+        currentSolution: document.getElementById("currentSolution").value,
+        badCurrentSolution: document.getElementById("badCurrentSolution").value,
+        websiteIdea: document.getElementById("websiteIdea").value,
+        mvp: document.getElementById("mvp").value,
+        monetization: document.getElementById("monetization").value,
+        difficulty: document.getElementById("difficulty").value,
+        frequency: document.getElementById("frequency").value,
+      };
+
+      if (!idea.problem.trim() || !idea.websiteIdea.trim()) {
+        alert("⚠️ يرجى إدخال المشكلة وفكرة الموقع");
+        return;
+      }
+
+      ideas.unshift(idea);
+      saveIdeas();
+      renderIdeas();
+      document.querySelectorAll("input").forEach(i => i.value = "");
+    }
+
+    function deleteIdea(id) {
+      ideas = ideas.filter(i => i.id !== id);
+      saveIdeas();
+      renderIdeas();
+    }
+
+    function renderIdeas() {
+  const table = document.getElementById("ideasTable");
+  const emptyMessage = document.getElementById("emptyMessage");
+  
+  table.innerHTML = "";
+
+  if (ideas.length === 0) {
+    emptyMessage.style.display = "block";
+    return;
+  }
+
+  emptyMessage.style.display = "none";
+
+  // نستخدم (idea, index) للحصول على ترتيب الفكرة في المصفوفة
+  ideas.forEach((idea, index) => {
+    
+    // تحديد الألوان بناءً على الترتيب (index)
+    // الفكرة الأولى (index 0) ستكون بلون، والثانية (index 1) بلون آخر
+    const isEven = index % 2 === 0;
+    const bgColor = isEven ? "#ffffff" : "#F1F1F1"; // أبيض للفردي ورمادي فاتح جداً للزوجي
+    const headerBg = isEven ? "#111827" : "#374151"; // تدرج في لون الرأس أيضاً للتمييز
+
+    // 1. المجموعة الأولى: العناوين
+    const headerRow1 = document.createElement("tr");
+    headerRow1.style.backgroundColor = headerBg;
+    headerRow1.style.color = "white";
+    headerRow1.innerHTML = `
+      <th>❓ المشكلة</th>
+      <th>🎯 الفئة</th>
+      <th>🛠️ المنافس</th>
+      <th>⚠️ عيوب الحل</th>
+      <th>🌐 فكرة الموقع</th>
+    `;
+
+    // 2. المجموعة الأولى: البيانات
+    const dataRow1 = document.createElement("tr");
+    dataRow1.style.backgroundColor = bgColor;
+    dataRow1.innerHTML = `
+      <td>${idea.problem}</td>
+      <td>${idea.audience}</td>
+      <td>${idea.currentSolution}</td>
+      <td>${idea.badCurrentSolution}</td>
+      <td><span class="badge">💡 ${idea.websiteIdea}</span></td>
+    `;
+
+    // 3. المجموعة الثانية: العناوين
+    const headerRow2 = document.createElement("tr");
+    headerRow2.style.backgroundColor = headerBg;
+    headerRow2.style.color = "white";
+    headerRow2.innerHTML = `
+      <th>🧪 نسخة MVP</th>
+      <th>💰 الربح</th>
+      <th>📊 الصعوبة</th>
+      <th>📅 التكرار</th>
+      <th>⚙️ إجراءات</th>
+    `;
+
+    // 4. المجموعة الثانية: البيانات
+    const dataRow2 = document.createElement("tr");
+    dataRow2.style.backgroundColor = bgColor;
+    dataRow2.innerHTML = `
+      <td>${idea.mvp}</td>
+      <td>${idea.monetization}</td>
+      <td>${idea.difficulty}/10</td>
+      <td>${idea.frequency}</td>
+      <td><button class="delete-btn" onclick="deleteIdea(${idea.id})">🗑️ حذف</button></td>
+    `;
+
+    // إضافة الأسطر للجدول
+    table.appendChild(headerRow1);
+    table.appendChild(dataRow1);
+    table.appendChild(headerRow2);
+    table.appendChild(dataRow2);
+    
+    // سطر فاصل شفاف بين الأفكار
+    /*const spacer = document.createElement("tr");
+    spacer.innerHTML = `<td colspan="5" style="height: 15px; border:none; background:transparent;"></td>`;
+    table.appendChild(spacer);
+    */
+  });
+}
+    renderIdeas();
+  </script>
+</body>
+</html>
